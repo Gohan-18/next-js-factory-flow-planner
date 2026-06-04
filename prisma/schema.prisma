@@ -1,0 +1,57 @@
+datasource db {
+  provider = "postgresql"
+  // Connection strings are completely removed from here in Prisma 7!
+}
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+model Category {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  samCut    Decimal @map("sam_cut")
+  samSew    Decimal @map("sam_sew")
+  samFinish Decimal @map("sam_finish")
+  samPack   Decimal @map("sam_pack")
+  orders    Order[]
+
+  @@map("categories")
+}
+
+model Line {
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  manpowerCut    Int              @map("manpower_cut")
+  manpowerSew    Int              @map("manpower_sew")
+  manpowerFinish Int              @map("manpower_finish")
+  manpowerPack   Int              @map("manpower_pack")
+  allocations    LineAllocation[]
+
+  @@map("lines")
+}
+
+model Order {
+  id            String           @id @default(uuid())
+  styleName     String           @map("style_name")
+  categoryId    Int              @map("category_id")
+  totalUnits    Int              @map("total_units")
+  shipDateStart DateTime         @map("ship_date_start")
+  shipDateEnd   DateTime         @map("ship_date_end")
+  category      Category         @relation(fields: [categoryId], references: [id])
+  allocations   LineAllocation[]
+
+  @@map("orders")
+}
+
+model LineAllocation {
+  id        Int      @id @default(autoincrement())
+  orderId   String   @map("order_id")
+  lineId    Int      @map("line_id")
+  startDate DateTime @map("start_date")
+  endDate   DateTime @map("end_date")
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  line      Line     @relation(fields: [lineId], references: [id])
+
+  @@map("line_allocations")
+}
