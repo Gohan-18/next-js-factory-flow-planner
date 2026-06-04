@@ -7,58 +7,7 @@
 import React from "react";
 import HeatmapGrid from "@/components/HeatmapGrid";
 
-// Generate a clean 4-week calendar horizon starting from today
-function generateMock4WeekData() {
-  const data = [];
-  const today = new Date();
-
-  for (let i = 0; i < 28; i++) {
-    const currentDay = new Date(today);
-    currentDay.setDate(today.getDate() + i);
-    const dateStr = currentDay.toISOString().split("T")[0];
-
-    // Seed data simulating an active line (Line A) and an available line (Line B)
-    data.push({
-      date: dateStr,
-      lines: [
-        {
-          lineName: "Line A (High Capacity)",
-          overallStatus: i < 7 ? "Full" : i < 14 ? "Warning" : "Available",
-          departments: {
-            cut: {
-              utilization: i < 7 ? 90 : 40,
-              status: i < 7 ? "Warning" : "Available",
-            },
-            sew: {
-              utilization: i < 7 ? 120 : i < 14 ? 85 : 55,
-              status: i < 7 ? "Full" : i < 14 ? "Warning" : "Available",
-            },
-            finish: { utilization: i < 7 ? 70 : 30, status: "Available" },
-            pack: { utilization: i < 7 ? 65 : 25, status: "Available" },
-          },
-        },
-        {
-          lineName: "Line B (Flexible Assembly)",
-          overallStatus: "Available",
-          departments: {
-            cut: { utilization: 15, status: "Available" },
-            sew: { utilization: 45, status: "Available" },
-            finish: { utilization: 60, status: "Available" },
-            pack: {
-              utilization: i === 12 ? 95 : 30,
-              status: i === 12 ? "Warning" : "Available",
-            },
-          },
-        },
-      ],
-    });
-  }
-  return data;
-}
-
 export default function DashboardPage() {
-  const mockData = generateMock4WeekData();
-
   return (
     <main className="p-6 max-w-[1600px] mx-auto">
       {/* Header Context Metrics */}
@@ -94,7 +43,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Primary Heatmap Execution View */}
-      <HeatmapGrid initialData={mockData} />
+      <HeatmapGrid />
     </main>
   );
 }
