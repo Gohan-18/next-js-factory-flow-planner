@@ -1,10 +1,3 @@
-// import Image from "next/image";
-
-// export default function Home() {
-//   return <div>Hello world</div>;
-// }
-
-import React from "react";
 import HeatmapGrid from "@/components/HeatmapGrid";
 
 export default function DashboardPage() {

@@ -1,22 +1,3 @@
-// import { NextResponse } from "next/server";
-// import {
-//   inMemoryAllocations,
-//   inMemoryLines,
-//   inMemoryCategories,
-// } from "@/lib/serverStore";
-// import { computeCapacityMatrix } from "@/lib/capacityEngine";
-
-// export async function GET() {
-//   // Compute metrics dynamically using the capacity engine
-//   const matrixData = computeCapacityMatrix(
-//     inMemoryAllocations,
-//     inMemoryLines,
-//     inMemoryCategories,
-//   );
-//   return NextResponse.json(matrixData);
-// }
-
-// src/app/api/capacity/route.ts
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { computeCapacityMatrix } from "@/lib/capacityEngine";
